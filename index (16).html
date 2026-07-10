@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy Birthday Sayangku</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #f3eae1;
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><path d="M0 0 L100 100 M100 0 L0 100" stroke="%23ebdcd0" stroke-width="0.5" fill="none"/></svg>');
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 800px;
+            min-height: 500px;
+            background: rgba(255, 255, 255, 0.4);
+            backdrop-filter: blur(5px);
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 10px 30px rgba(139,69,19,0.05);
+            text-align: center;
+            position: relative;
+            border: 1px solid rgba(255,255,255,0.6);
+        }
+
+        .page {
+            display: none;
+            animation: fadeIn 0.5s ease-in-out forwards;
+        }
+
+        .page.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        h1, h2 {
+            font-family: 'Georgia', serif;
+            color: #5c1d24;
+            margin-bottom: 10px;
+            font-size: 3rem;
+        }
+
+        .subtitle {
+            color: #8b5a5f;
+            font-style: italic;
+            margin-bottom: 30px;
+            font-size: 1.2rem;
+        }
+
+        /* Buttons */
+        .btn-container {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 30px;
+        }
+
+        .btn {
+            padding: 12px 35px;
+            font-size: 1.1rem;
+            border: 2px solid #5c1d24;
+            background: transparent;
+            color: #5c1d24;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn:hover {
+            background: #5c1d24;
+            color: #fff;
+        }
+
+        /* Try Again Screen */
+        .dark-page {
+            background-color: #3b1116;
+            color: #f3eae1;
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border-radius: 20px;
+            display: none;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 40px;
+        }
+
+        .dark-page h2 {
+            color: #f3eae1;
+            margin-bottom: 20px;
+        }
+
+        .dark-page .btn {
+            border-color: #f3eae1;
+            color: #f3eae1;
+        }
+
+        .dark-page .btn:hover {
+            background: #f3eae1;
+            color: #3b1116;
+        }
+
+        /* Grid Dashboard Menu */
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+            margin-top: 40px;
+        }
+
+        .menu-item {
+            background: #fff;
+            border: 1px solid #ebdcd0;
+            border-radius: 15px;
+            padding: 25px 15px;
+            cursor: pointer;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.02);
+        }
+
+        .menu-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(92,29,36,0.1);
+        }
+
+        .menu-item svg {
+            width: 50px;
+            height: 50px;
+            fill: none;
+            stroke: #5c1d24;
+            stroke-width: 1.5;
+            margin-bottom: 10px;
+        }
+
+        /* Content Sub-Pages styling */
+        .photo-gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .photo-card {
+            background: white;
+            padding: 10px 10px 25px 10px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            transform: rotate(var(--r));
+            border-radius: 2px;
+        }
+
+        .photo-card img {
+            width: 100%;
+            height: 150px;
+            object-fit: cover;
+        }
+
+        .about-text {
+            text-align: left;
+            max-width: 500px;
+            margin: 0 auto 20px auto;
+            line-height: 1.6;
+            color: #4a141a;
+        }
+
+        .about-text li {
+            margin-bottom: 10px;
+            list-style-type: "❤️ ";
+        }
+
+        .video-container {
+            position: relative;
+            padding-bottom: 56.25%;
+            height: 0;
+            overflow: hidden;
+            max-width: 100%;
+            background: #000;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+
+        .video-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: 0;
+        }
+
+        .letter-box {
+            background: #fff;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: inset 0 0 20px rgba(0,0,0,0.02);
+            border: 1px dashed #5c1d24;
+            text-align: left;
+            line-height: 1.8;
+            color: #333;
+            max-height: 300px;
+            overflow-y: auto;
+            margin-bottom: 20px;
+            white-space: pre-line;
+        }
+
+        @media (max-width: 600px) {
+            .menu-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            h1 { font-size: 2.2rem; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    
+    <!-- PAGE 1: Welcome -->
+    <div id="page-welcome" class="page active">
+        <!-- SVG Cake Illustration placeholder -->
+        <svg viewBox="0 0 100 80" style="width: 120px; height: auto; margin-bottom: 20px;">
+            <path d="M20 50 h60 v20 h-60 z" fill="none" stroke="#5c1d24" stroke-width="1.5"/>
+            <path d="M25 35 h50 v15 h-50 z" fill="none" stroke="#5c1d24" stroke-width="1.5"/>
+            <path d="M35 25 h30 v10 h-30 z" fill="none" stroke="#5c1d24" stroke-width="1.5"/>
+            <line x1="50" y1="15" x2="50" y2="25" stroke="#5c1d24" stroke-width="1.5"/>
+            <line x1="40" y1="18" x2="40" y2="25" stroke="#5c1d24" stroke-width="1.5"/>
+            <line x1="60" y1="18" x2="60" y2="25" stroke="#5c1d24" stroke-width="1.5"/>
+        </svg>
+        <h1>Happy Birthday</h1>
+        <p class="subtitle">do you want to see your gift?</p>
+        <div class="btn-container">
+            <button class="btn" onclick="navigateTo('page-menu')">yes!!!</button>
+            <button class="btn" id="no-btn" onclick="showTryAgain()">nooo :((</button>
+        </div>
+    </div>
+
+    <!-- PAGE: Try Again (Overlay Trick) -->
+    <div id="page-tryagain" class="dark-page">
+        <h2>I promise you'll like it :(</h2>
+        <button class="btn" onclick="hideTryAgain()">try again</button>
+    </div>
+
+    <!-- PAGE 2: Main Menu Dashboard -->
+    <div id="page-menu" class="page">
+        <h2>Happy birthday sayangku</h2>
+        <p class="subtitle">Choose a gift box below:</p>
+        
+        <div class="menu-grid">
+            <div class="menu-item" onclick="navigateTo('page-memories')">
+                <svg viewBox="0 0 24 24"><path d="M22 16V4a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2zM12 11l-3 4H7l4-5 3 3 3-4 3 4h-2z"/></svg>
+                <span>Memories</span>
+            </div>
+            <div class="menu-item" onclick="navigateTo('page-about')">
+                <svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+                <span>About You</span>
+            </div>
+            <div class="menu-item" onclick="navigateTo('page-song')">
+                <svg viewBox="0 0 24 24"><path d="M9 18V5l12-2v13M9 10l12-2"/></svg>
+                <span>Our Song</span>
+            </div>
+            <div class="menu-item" onclick="navigateTo('page-message')">
+                <svg viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
+                <span>Message</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- SUB-PAGE 1: Memories -->
+    <div id="page-memories" class="page">
+        <h2>Memories</h2>
+        <p class="subtitle">Some of my favorite moments with you</p>
+        <div class="photo-gallery">
+            <!-- Replace URLs with your actual image links -->
+            <div class="photo-card" style="--r: -3deg;"><img src="https://picsum.photos/id/1025/300/300" alt="Memory 1"></div>
+            <div class="photo-card" style="--r: 4deg;"><img src="https://picsum.photos/id/64/300/300" alt="Memory 2"></div>
+            <div class="photo-card" style="--r: -2deg;"><img src="https://picsum.photos/id/1062/300/300" alt="Memory 3"></div>
+        </div>
+        <button class="btn" onclick="navigateTo('page-menu')">back</button>
+    </div>
+
+    <!-- SUB-PAGE 2: About You -->
+    <div id="page-about" class="page">
+        <h2>About You</h2>
+        <p class="subtitle">A few reasons why you are special</p>
+        <ul class="about-text">
+            <li>You are kind to everyone you meet.</li>
+            <li>Your smile can change someone's mood instantly.</li>
+            <li>You have a soft heart but you are incredibly strong.</li>
+            <li>You are loved more than you will ever think.</li>
+        </ul>
+        <button class="btn" onclick="navigateTo('page-menu')">back</button>
+    </div>
+
+    <!-- SUB-PAGE 3: Song -->
+    <div id="page-song" class="page">
+        <h2>This song reminds me of you</h2>
+        <p class="subtitle">Press play ✨</p>
+        <div class="video-container">
+            <!-- Replace video ID after 'embed/' with your favorite track -->
+            <iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ" allowfullscreen></iframe>
+        </div>
+        <button class="btn" onclick="navigateTo('page-menu')">back</button>
+    </div>
+
+    <!-- SUB-PAGE 4: Message -->
+    <div id="page-message" class="page">
+        <h2>My Message To You</h2>
+        <p class="subtitle">From the bottom of my heart</p>
+        <div class="letter-box">
+            Happy birthday my love! ❤️
+
+            It's your special day, and I want you to know how grateful I am to have you in my life. Thank you for always being my safe place, my best friend, and my biggest supporter. 
+
+            I hope this new age brings you endless happiness, good health, and all the success you deserve. I promise to always be by your side through everything.
+
+            I love you today, tomorrow, and always. 🥂✨
+        </div>
+        <button class="btn" onclick="navigateTo('page-menu')">back</button>
+    </div>
+
+</div>
+
+<script>
+    function navigateTo(pageId) {
+        // Hide all pages
+        document.querySelectorAll('.page').forEach(page => {
+            page.classList.remove('active');
+        });
+        // Show selected page
+        document.getElementById(pageId).classList.add('active');
+    }
+
+    function showTryAgain() {
+        document.getElementById('page-tryagain').style.display = 'flex';
+    }
+
+    function hideTryAgain() {
+        document.getElementById('page-tryagain').style.display = 'none';
+    }
+</script>
+</body>
+</html>
